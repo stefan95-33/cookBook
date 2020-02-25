@@ -1,37 +1,41 @@
-import React, {useState, useRef} from "react";
-import { Button, ButtonToolbar, Overlay, Tooltip } from 'react-bootstrap';
+import React, { useState, useRef } from "react";
+import { Button, ButtonToolbar } from "react-bootstrap";
 import { getPreviousRecipesOnServer } from "../../../actions";
-import ModalPreviousRecipes from "../../modals/modalPreviousRecipes";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
-const BtnPreviousRecipeVersions = ({prevRecipeDispatch, id, prevRecipes}) => {
-    const [show, setShow] = useState(false);
+const BtnPreviousRecipeVersions = ({
+  prevRecipeDispatch,
+  id,
+  loadingPrevRecipes
+}) => {
+  function getPrevRecipes() {
+    prevRecipeDispatch(id);
+  }
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    function getPrevRecipes() {
-        handleShow();
-        prevRecipeDispatch(id)
-    }
-
-    return (
-        <>
-            <ButtonToolbar onClick={getPrevRecipes}>
-                <Button variant="outline-primary">Prev. Recipes</Button>
-            </ButtonToolbar>
-            <ModalPreviousRecipes
-                handleClose={handleClose}
-                show={show} />
-        </>
-    );
+  return (
+    <React.Fragment>
+      <ButtonToolbar>
+        <Button onClick={getPrevRecipes} variant="outline-primary">
+          {loadingPrevRecipes ? "Loading..." : "Prev. Recipes"}
+        </Button>
+      </ButtonToolbar>
+    </React.Fragment>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        prevRecipeDispatch: (id) => getPreviousRecipesOnServer(id)(dispatch)
-    }
+const mapStateToProps = (state, props) => {
+  return {
+    loadingPrevRecipes: props.id === state.loadingPrevRecipes
+  };
 };
 
-export default connect(null, mapDispatchToProps)(BtnPreviousRecipeVersions);
+const mapDispatchToProps = dispatch => {
+  return {
+    prevRecipeDispatch: id => getPreviousRecipesOnServer(id)(dispatch)
+  };
+};
 
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BtnPreviousRecipeVersions);
