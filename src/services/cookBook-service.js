@@ -1,29 +1,20 @@
+import Axios from "axios";
+
+const axios = Axios.create({
+    baseURL: "http://localhost:8080/api"
+});
+
 export default class CookBookService {
-    data = [
-        {
-            id: 1,
-            name: 'Pancakes',
-            description: 'To make batter you need the following',
-            data: '19 February 2020'
-        },
-        {
-            id: 2,
-            name: 'Pancakes',
-            description: 'To make batter you need the following',
-            data: '19 February 2020'
-        },
-        {
-            id: 3,
-            name: 'Pancakes',
-            description: 'To make batter you need the following',
-            data: '19 February 2020'
-        }
-    ];
-    getBooks(){
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(this.data)
-            }, 1250);
-        });
+    getRecipes(){
+        return axios.get("/recipes")
+    }
+    postNewRecipes(recipes){
+        return axios.post("/recipes", {recipes})
+    }
+    updateRecipes(recipes, id){
+        return axios.put(`/recipes/${id}`, recipes)
+    }
+    getPreviousRecipes(id){
+        return axios.get(`/recipes/previous/${id}`);
     }
 }

@@ -1,0 +1,33 @@
+.accordion{
+    margin-top: 10px;
+}
+
+.accordionTitle{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    transition: background-color linear 0.1s;
+}
+
+.accordionTitle p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+
+.accordionTitle:hover{
+    background-color: #CCFFCC;
+    transition: background-color linear 0.1s;
+}
+
+.cardBody{
+    font-family: 'Simonetta';
+    white-space: pre-wrap;
+}
+
+.buttonsInside{
+    display: flex;
+    margin-top: 10px;
+}
